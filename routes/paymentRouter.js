@@ -22,8 +22,8 @@ paymentRouter.post("/checkout", async (req, res) => {
         quantity: e.qty,
       })),
     mode: "payment",
-    success_url: `http://localhost:3001?success=true`,
-    cancel_url: `http://localhost:3001?canceled=true`,
+    success_url: `https://app-cs.codingschool.org.in?success=true`,
+    cancel_url: `https://app-cs.codingschool.org.in?canceled=true`,
   });
   console.log(data);
   res.send(data);
