@@ -27,13 +27,14 @@ const login = async (req) => {
   const { email, password } = req.body;
   const userData = await User.find({ email });
   if (!userData.length) throw new Error("Email not found");
-  const { password: hashedPass, _id } = userData[0];
+  const { password: hashedPass, _id,access } = userData[0];
   const checkPass = await compare(password, hashedPass);
   if (!checkPass) throw new Error("Wrong Credentials");
   const token = CryptoJS.AES.encrypt(
     JSON.stringify({
       email,
       userId: _id,
+      access
     }),
     process.env.CRYPTO_SECRET // used for encryption and decryption
   ).toString();

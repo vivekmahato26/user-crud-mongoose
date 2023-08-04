@@ -10,11 +10,12 @@ module.exports = (req, res, next) => {
       token,
       process.env.CRYPTO_SECRET
     ).toString(CryptoJS.enc.Utf8);
-    const { email, userId } = JSON.parse(decodedString);
+    const { email, userId,access } = JSON.parse(decodedString);
     if (email && userId) {
       req.isAuth = true;
       req.userId = userId;
       req.email = email;
+      req.access = access
       next();
     } else {
       throw new Error("Invalid Token");
