@@ -10,18 +10,23 @@ const getAllCourses = (req) => {
   return Courses.find({})
     .skip((parseInt(page) - 1) * parseInt(count))
     .limit(parseInt(count))
-    .sort("title","asc");
+    .sort("title","asc").toArray();
 };
 
 const getCourseById = async(req) => {
-  const courseId = new mongoDB.ObjectId(req.body.courseId);
+  const courseId = new mongoDB.ObjectId(req.params.courseId);
   const courseData = await Courses.findOne({_id: courseId});
   const {curriculum} = courseData;
   const currPromise = curriculum.map(e => {
     const topicId = new mongoDB.ObjectId(e);
     return Topics.findOne({_id: topicId})
   });
-  return Promise.allSettled(currPromise);
+  const topicsData = await Promise.allSettled(currPromise);
+
+  return {
+    ...courseData, 
+    curriculum: topicsData.map(e => e.value)
+  }
 }
 
 

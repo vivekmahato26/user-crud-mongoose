@@ -8,6 +8,7 @@ const Auth = require("./middlewares/Auth");
 const addressRouter = require("./routes/addressRouter");
 const courseRouter = require("./routes/courseRouter");
 const paymentRouter = require("./routes/paymentRouter");
+const topicsRouter = require("./routes/topicsRouter");
 
 const app = Express();
 app.use(cors());
@@ -20,8 +21,9 @@ mongoose.connect(
 
 app.use("/users",userRouter); // http://localhost:4000/users/login
 app.use("/address", addressRouter);
-app.use("/course", courseRouter);
+app.use("/courses", courseRouter);
 app.use("/payment", paymentRouter);
+app.use("/topic",topicsRouter);
 
 
 app.listen(4000, () => console.log("server running at port 4000"));

@@ -77,7 +77,8 @@ const passwordReset = async (req) => {
 
 const verify = async (req) => {
   const { token } = req.query;
-  const tokenData = TokenModel.findOne({ token });
+  console.log(token);
+  const tokenData = await TokenModel.findOne({ token });
   if (!tokenData.token) throw new Error("link not found");
   if (token.createdAt + 3600000 < new Date().getTime())
     throw new Error("Link expired");
@@ -93,7 +94,7 @@ const changePass = async (req) => {
   const salt = await genSalt();
   const hashedPass = await hash(password, salt);
   await TokenModel.findByIdAndDelete(tokenId);
-  return User.findOneAndReplace(
+  return User.findOneAndUpdate(
     { _id: userId },
     { password: hashedPass },
     { new: true }

@@ -21,7 +21,7 @@ courseRouter.get("/all", async(req,res) => {
         res.send({err: error.message})
     }
 })
-courseRouter.get("/course", async(req,res) => {
+courseRouter.get("/:courseId", async(req,res) => {
     try {
         if(!req.isAuth) throw new Error("Unauthenticated");
         const data = await getCourseById(req);

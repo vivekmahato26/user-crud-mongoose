@@ -8,25 +8,32 @@ const paymentRouter = Router();
 // }
 
 paymentRouter.post("/checkout", async (req, res) => {
-  const data = await stripe.checkout.sessions.create({
-    line_items: req.body.items.map(e => ({ // [{}]
-        price_data: { 
+  try {
+    const data = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
             currency: "INR",
             product_data: {
-                name: e.name,
-                description: e.description,
-                // images: [e.img]
+              name: req.body.title,
+              description: req.body.desc,
             },
-            unit_amount: e.price*100
+            unit_amount: parseFloat(req.body.price) * 100,
+          },
+          quantity: "1",
         },
-        quantity: e.qty,
-      })),
-    mode: "payment",
-    success_url: `https://app-cs.codingschool.org.in?success=true`,
-    cancel_url: `https://app-cs.codingschool.org.in?canceled=true`,
-  });
-  console.log(data);
-  res.send(data);
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3000/payment?success=true`,
+      cancel_url: `http://localhost:3000/payment?canceled=true`,
+    });
+    console.log(data);
+    res.send(data);
+  } catch (error) {
+      console.log(error);
+      res.send({err: error.message})
+  }
+  
 });
 
 module.exports = paymentRouter;

@@ -2,12 +2,7 @@ const { Topics, Courses } = require("../mongoConfig");
 const mongoDb = require("mongodb");
 
 const addTopic = async(req) => {
-    const topicData = await Topics.insertOne({
-        name: req.body.name,
-        duration: req.body.duration,
-        video: req.body.video,
-        description: req.body.description,
-    });
+    const topicData = await Topics.insertOne(req.body);
     const topicId = topicData.insertedId.toString();
     const courseId = new mongoDb.ObjectId(req.body.courseId);
     return Courses.findOneAndUpdate({_id: courseId},{

@@ -16,7 +16,7 @@ const sendMail = (mail, token) =>
       subject: "Password Reset",
       html: `
     <button>
-        <a href=http://localhost:3000/token=${token}>Change Password</a>
+        <a href=http://localhost:3000/verify?token=${token}>Change Password</a>
     </button>
     `,
     },
