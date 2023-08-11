@@ -9,6 +9,7 @@ const addressRouter = require("./routes/addressRouter");
 const courseRouter = require("./routes/courseRouter");
 const paymentRouter = require("./routes/paymentRouter");
 const topicsRouter = require("./routes/topicsRouter");
+const subscriptionRouter = require("./routes/subscriptionRouter");
 
 const app = Express();
 app.use(cors());
@@ -24,6 +25,7 @@ app.use("/address", addressRouter);
 app.use("/courses", courseRouter);
 app.use("/payment", paymentRouter);
 app.use("/topic",topicsRouter);
+app.use("/subscription",subscriptionRouter);
 
 
 app.listen(4000, () => console.log("server running at port 4000"));
